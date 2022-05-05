@@ -1,0 +1,59 @@
+#!/bin/bash
+
+APP_NAME=$1
+
+CURRENT_DIR=$(pwd)
+SELF_DIR=$(cd $(dirname $0); pwd)
+
+mkdir $CURRENT_DIR/$APP_NAME
+cd $CURRENT_DIR/$APP_NAME
+
+git init
+
+nest new backend
+
+cd backend
+
+yes | rm -r src
+cp -r $SELF_DIR/nest-app/backend/src .
+
+cat <<EOF > src/constants.ts
+export const appname = "$APP_NAME"
+
+export const dbname = "$APP_NAME.db"
+EOF
+
+cat <<EOF >> .gitignore
+
+# ELSE
+.env
+*.db
+*.sqlite3
+EOF
+
+npm i @nestjs/passport passport passport-local @nestjs/jwt passport-jwt
+npm i --save-dev @types/passport-local @types/passport-jwt
+
+npm i class-validator
+npm i class-transformer
+
+npm i @nestjs/config
+
+npm i @nestjs/typeorm typeorm sqlite3
+
+npm i @nestjs/serve-static
+
+npm i cookie-parser
+
+
+echo ""
+echo "Please enter JWT_SECRET_KEY:"
+read JWT_SECRET_KEY
+echo ""
+echo "JWT_SECRET_KEY=$JWT_SECRET_KEY" > .env
+
+yes | rm -r .git
+
+open http://localhost:3000/api
+
+nest start
