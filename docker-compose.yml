@@ -1,5 +1,5 @@
 services:
-  backend:
+  nest:
     build:
       context: .
       dockerfile: Dockerfile
