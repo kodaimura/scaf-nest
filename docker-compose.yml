@@ -1,0 +1,22 @@
+services:
+  nest:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+      - PORT=3001
+    command: npm run start:dev
+
+  db:
+    image: postgres:16.1
+    environment:
+      POSTGRES_DB: nestpl
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./data:/var/lib/postgresql/data 
