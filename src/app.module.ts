@@ -19,7 +19,7 @@ import { Account } from './accounts/entities/account.entity';
       entities: [Account],
       synchronize: true,
     }),
-    AccountsModule
+    AccountsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
