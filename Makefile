@@ -17,11 +17,17 @@ down:
 stop:
 	$(DOCKER_COMPOSE_CMD) stop
 
-in:
-	$(DOCKER_COMPOSE_CMD) exec nest bash
+inback:
+	$(DOCKER_COMPOSE_CMD) exec backend bash
 
-log:
-	$(DOCKER_COMPOSE_CMD) logs -f
+infront:
+	$(DOCKER_COMPOSE_CMD) exec frontend bash
+
+logback:
+	$(DOCKER_COMPOSE_CMD) logs -f backend
+
+logfront:
+	$(DOCKER_COMPOSE_CMD) logs -f frontend
 
 ps:
 	$(DOCKER_COMPOSE_CMD) ps
@@ -34,6 +40,8 @@ help:
 	@echo "  build     Build containers without cache"
 	@echo "  down      Stop and remove containers, networks, and volumes"
 	@echo "  stop      Stop containers"
-	@echo "  in        Access app container via bash"
-	@echo "  log       Show logs for the app container"
+	@echo "  inback    Access app container via bash (backend)"
+	@echo "  infront   Access app container via bash (frontend)"
+	@echo "  logback   Show logs for the app container (backend)"
+	@echo "  logfront  Show logs for the app container (frontend)"
 	@echo "  ps        Show status for the app container"
