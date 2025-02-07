@@ -1,9 +1,0 @@
-FROM node:23.6.1
-
-WORKDIR /app
-
-COPY ./backend .
-
-RUN npm install
-
-EXPOSE 3001

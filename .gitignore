@@ -1,5 +1,5 @@
 .DS_Store
 data
 
-frontend/*
-!frontend/.gitkeep
+src/frontend/*
+!src/frontend/.gitkeep
