@@ -1,16 +1,35 @@
 services:
-  nest:
+  backend:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ./docker/dev/Dockerfile.backend
     volumes:
-      - .:/app
+      - ./src/backend:/app
     ports:
       - "3001:3001"
     environment:
       - NODE_ENV=development
       - PORT=3001
-    command: npm run start:dev
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASS=postgres
+      - DB_NAME=nestpl
+    working_dir: /app
+    tty: true
+
+  frontend:
+    build:
+      context: .
+      dockerfile: ./docker/dev/Dockerfile.frontend
+    volumes:
+      - ./src/frontend:/app
+    ports:
+      - "3000:3000"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    working_dir: /app
+    tty: true
 
   db:
     image: postgres:16.1
