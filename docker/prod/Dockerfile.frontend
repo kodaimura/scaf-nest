@@ -6,6 +6,7 @@ COPY src/frontend/package*.json ./
 RUN npm install
 
 COPY src/frontend ./
-RUN NEXT_DISABLE_ESLINT=1 npm run build
+
+RUN npm run build
 
 CMD ["npm", "run", "start"]
