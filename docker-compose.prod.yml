@@ -3,35 +3,31 @@ services:
     build:
       context: .
       dockerfile: ./docker/prod/Dockerfile.backend
-    volumes:
-      - ./src/backend:/app
-      - /app/node_modules
     ports:
       - "3001:3001"
     environment:
       - NODE_ENV=production
     working_dir: /app
-    command: npm run start:dev
+    command: sh -c "npm run start"
+    restart: always
 
   frontend:
     build:
       context: .
       dockerfile: ./docker/prod/Dockerfile.frontend
-    volumes:
-      - ./src/frontend:/app
-      - /app/node_modules
     ports:
       - "3000:3000"
-    stdin_open: true
-    tty: true
-    working_dir: /app
-    command: "npm run dev"
-
-  db:
-    image: postgres:16.1
     environment:
-      POSTGRES_DB: nestpl
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    volumes:
-      - ./data:/var/lib/postgresql/data 
+      - NODE_ENV=production
+    working_dir: /app
+    command: sh -c "npm run build && npm run start"
+    restart: always
+
+#  db:
+#    image: postgres:16.1
+#    environment:
+#      POSTGRES_DB: nestpl
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: postgres
+#    volumes:
+#      - ./data:/var/lib/postgresql/data 

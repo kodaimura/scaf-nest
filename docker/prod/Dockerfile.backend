@@ -2,8 +2,10 @@ FROM node:23.6.1
 
 WORKDIR /app
 
-COPY src/backend/package*.json .
+COPY src/backend/package*.json ./
+RUN npm install --only=production
+RUN npm install @nestjs/cli
 
-RUN npm install
+COPY src/backend ./
 
-COPY src/backend .
+CMD ["npm", "run", "start"]
