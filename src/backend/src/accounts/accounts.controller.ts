@@ -21,7 +21,7 @@ export class AccountsController {
     res.cookie('access_token', result.access_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      maxAge: parseInt(process.env.JWT_EXPIRATION) * 1000,
+      maxAge: parseInt(process.env.JWT_EXPIRATION || '2592000') * 1000,
     });
     return res.json({ message: 'Login successful' });
   }
