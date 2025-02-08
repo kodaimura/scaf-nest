@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Delete, Request, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Delete, Request, Res, UseGuards } from '@nestjs/common';
 import { AccountsService } from './accounts.service';
 import { SignupDto } from './dto/signup.dto';
 import { LoginDto } from './dto/login.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { Response } from 'express';
 
 @Controller('api/accounts')
 export class AccountsController {
@@ -14,8 +15,15 @@ export class AccountsController {
   }
 
   @Post('login')
-  async login(@Body() loginDto: LoginDto) {
-    return this.accountsService.login(loginDto);
+  async login(@Body() loginDto: LoginDto, @Res() res: Response) {
+    const result = await this.accountsService.login(loginDto);
+    
+    res.cookie('access_token', result.access_token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: parseInt(process.env.JWT_EXPIRATION) * 1000,
+    });
+    return res.json({ message: 'Login successful' });
   }
 
   @UseGuards(JwtAuthGuard)
