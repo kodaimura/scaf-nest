@@ -26,6 +26,17 @@ export class AccountsController {
     return res.json({ message: 'Login successful' });
   }
 
+  @Post('logout')
+  async logout(@Request() req: Request, @Res() res: Response) {
+    res.clearCookie('access_token', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      path: '/',
+    });
+
+    return res.json({ message: 'Logout' });
+  }
+
   @UseGuards(JwtAuthGuard)
   @Get('me')
   async getMyAccount(@Request() req: any) {
