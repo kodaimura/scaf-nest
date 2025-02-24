@@ -8,7 +8,7 @@ import { JwtModule } from '@nestjs/jwt';
       global: true,
       secret: process.env.JWT_SECRET || 'secret',
       signOptions: { 
-        expiresIn: process.env.JWT_EXPIRATION || '30d',
+        expiresIn: process.env.JWT_EXPIRATION || '60s',
       },
     }),
   ],
