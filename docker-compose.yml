@@ -1,12 +1,13 @@
 services:
-  backend:
+  app:
     build:
       context: .
-      dockerfile: ./docker/dev/Dockerfile.backend
     volumes:
-      - ./src/backend:/app
+      - .:/app
     ports:
       - "3001:3001"
+    depends_on:
+      - db
     environment:
       - NODE_ENV=development
       - PORT=3001
@@ -14,32 +15,17 @@ services:
       - DB_PORT=5432
       - DB_USER=postgres
       - DB_PASS=postgres
-      - DB_NAME=sample
+      - DB_NAME=project_db
       - JWT_EXPIRATION=2592000
       - JWT_SECRET=secret
     working_dir: /app
-    tty: true
-
-  frontend:
-    build:
-      context: .
-      dockerfile: ./docker/dev/Dockerfile.frontend
-    volumes:
-      - ./src/frontend:/app
-    ports:
-      - "3000:3000"
-    environment:
-      - NODE_ENV=development
-      - CHOKIDAR_USEPOLLING=true
-      - API_HOST=http://backend:3001
-      - NEXT_PUBLIC_API_HOST=http://localhost:3001
-    working_dir: /app
+    command: sh -c "npm install && npm run start:dev"
     tty: true
 
   db:
-    image: postgres:16.1
+    image: postgres:17.4
     environment:
-      POSTGRES_DB: sample
+      POSTGRES_DB: project_db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     volumes:
