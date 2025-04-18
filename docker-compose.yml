@@ -5,12 +5,12 @@ services:
     volumes:
       - .:/app
     ports:
-      - "3001:3001"
+      - "8000:8000"
     depends_on:
       - db
     environment:
       - NODE_ENV=development
-      - PORT=3001
+      - PORT=8000
       - DB_HOST=db
       - DB_PORT=5432
       - DB_USER=postgres
