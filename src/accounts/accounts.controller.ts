@@ -7,7 +7,7 @@ import { Response } from 'express';
 
 @Controller('api/accounts')
 export class AccountsController {
-  constructor(private readonly accountsService: AccountsService) {}
+  constructor(private readonly accountsService: AccountsService) { }
 
   @Post('signup')
   async signup(@Body() signupDto: SignupDto) {
@@ -17,7 +17,7 @@ export class AccountsController {
   @Post('login')
   async login(@Body() loginDto: LoginDto, @Res() res: Response) {
     const result = await this.accountsService.login(loginDto);
-    
+
     res.cookie('access_token', result.access_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',

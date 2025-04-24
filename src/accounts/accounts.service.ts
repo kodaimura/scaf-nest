@@ -13,7 +13,7 @@ export class AccountsService {
     @InjectRepository(Account)
     private accountsRepository: Repository<Account>,
     private jwtService: JwtService,
-  ) {}
+  ) { }
 
   async signup(signupDto: SignupDto): Promise<Account> {
     const saltRounds = 10;
@@ -42,8 +42,8 @@ export class AccountsService {
     }
 
     const payload = { account_id: account.account_id, account_name: account.account_name };
-    return { 
-      access_token: this.jwtService.sign(payload) 
+    return {
+      access_token: this.jwtService.sign(payload)
     };
   }
 

@@ -17,10 +17,12 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
-
     //追加
     "paths": {
-      "*": ["node_modules/*", "src/*"]
+      "*": [
+        "node_modules/*",
+        "src/*"
+      ]
     }
   }
 }
