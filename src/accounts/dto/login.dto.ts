@@ -2,8 +2,8 @@ import { IsNotEmpty } from 'class-validator';
 
 export class LoginDto {
   @IsNotEmpty()
-  account_name: string;
+  name: string;
 
   @IsNotEmpty()
-  account_password: string;
+  password: string;
 }

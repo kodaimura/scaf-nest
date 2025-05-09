@@ -3,13 +3,13 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 @Entity('accounts')
 export class Account {
   @PrimaryGeneratedColumn()
-  account_id: number;
+  id: number;
 
   @Column({ unique: true, length: 150 })
-  account_name: string;
+  name: string;
 
   @Column()
-  account_password: string;
+  password: string;
 
   @CreateDateColumn()
   created_at: Date;

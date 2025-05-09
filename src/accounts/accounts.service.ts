@@ -17,11 +17,11 @@ export class AccountsService {
 
   async signup(signupDto: SignupDto): Promise<Account> {
     const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(signupDto.account_password, saltRounds);
+    const hashedPassword = await bcrypt.hash(signupDto.password, saltRounds);
 
     const newAccount = this.accountsRepository.create({
       ...signupDto,
-      account_password: hashedPassword,
+      password: hashedPassword,
     });
 
     return await this.accountsRepository.save(newAccount);
@@ -29,26 +29,26 @@ export class AccountsService {
 
   async login(loginDto: LoginDto): Promise<{ access_token: string }> {
     const account = await this.accountsRepository.findOne({
-      where: { account_name: loginDto.account_name },
+      where: { name: loginDto.name },
     });
 
     if (!account) {
-      throw new UnauthorizedException('Invalid account_name or password');
+      throw new UnauthorizedException('Invalid name or password');
     }
 
-    const isMatch = await bcrypt.compare(loginDto.account_password, account.account_password);
+    const isMatch = await bcrypt.compare(loginDto.password, account.password);
     if (!isMatch) {
-      throw new UnauthorizedException('Invalid account_name or password');
+      throw new UnauthorizedException('Invalid name or password');
     }
 
-    const payload = { account_id: account.account_id, account_name: account.account_name };
+    const payload = { id: account.id, name: account.name };
     return {
       access_token: this.jwtService.sign(payload)
     };
   }
 
   async findOne(id: number): Promise<Account | null> {
-    return await this.accountsRepository.findOne({ where: { account_id: id } });
+    return await this.accountsRepository.findOne({ where: { id: id } });
   }
 
   async remove(id: number): Promise<void> {

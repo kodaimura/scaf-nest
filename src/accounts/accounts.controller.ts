@@ -40,12 +40,12 @@ export class AccountsController {
   @UseGuards(JwtAuthGuard)
   @Get('me')
   async getMyAccount(@Request() req: any) {
-    return this.accountsService.findOne(req.user.account_id);
+    return this.accountsService.findOne(req.user.id);
   }
 
   @UseGuards(JwtAuthGuard)
   @Delete()
   async remove(@Request() req: any) {
-    return this.accountsService.remove(req.user.account_id);
+    return this.accountsService.remove(req.user.id);
   }
 }
